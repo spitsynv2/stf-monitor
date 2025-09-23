@@ -7,6 +7,7 @@ import (
 	"github.com/spitsynv2/stf-monitor/model"
 	"io"
 	"net/http"
+	"time"
 )
 
 func GetDevices(provider string) ([]model.Device, error) {
@@ -22,7 +23,7 @@ func GetDevices(provider string) ([]model.Device, error) {
 
 	req.Header.Set("Authorization", "Bearer "+token)
 
-	client := &http.Client{}
+	client := &http.Client{Timeout: 15 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
