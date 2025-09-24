@@ -1,13 +1,16 @@
 package config
 
 import (
+	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 type Config struct {
 	StfProviders map[string]string
 	SkipSerials  map[string]bool
+	PullCooldown time.Duration
 }
 
 var Conf = Config{}
@@ -30,4 +33,11 @@ func init() {
 	for _, val := range skipSerials {
 		Conf.SkipSerials[val] = true
 	}
+
+	val := os.Getenv("PULL_COOLDOWN")
+	duration, err := time.ParseDuration(val)
+	if err != nil {
+		log.Fatalf("invalid PULL_COOLDOWN: %v", err)
+	}
+	Conf.PullCooldown = duration
 }

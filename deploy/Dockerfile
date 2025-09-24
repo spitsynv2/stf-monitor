@@ -18,5 +18,7 @@ COPY --from=builder /app/stf-monitor .
 ENV STF_PROVIDERS=
 ENV STF_TOKENS=
 ENV SKIP_SERIALS=
+#Use time.Duration format: (15s, 1m, 1h)
+ENV PULL_COOLDOWN=
 
 CMD ["./stf-monitor"]

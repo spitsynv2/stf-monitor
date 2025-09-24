@@ -91,7 +91,7 @@ func main() {
 	root, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	ticker := time.NewTicker(15 * time.Second)
+	ticker := time.NewTicker(config.Conf.PullCooldown)
 	defer ticker.Stop()
 
 	router := gin.New()
