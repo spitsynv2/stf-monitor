@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -34,10 +35,14 @@ func init() {
 		Conf.SkipSerials[val] = true
 	}
 
-	val := os.Getenv("PULL_COOLDOWN")
+	val := os.Getenv("STF_API_REQUEST_INTERVAL")
 	duration, err := time.ParseDuration(val)
 	if err != nil {
-		log.Fatalf("invalid PULL_COOLDOWN: %v", err)
+		sec, err2 := strconv.Atoi(val)
+		if err2 != nil {
+			log.Fatalf("invalid STF_API_REQUEST_INTERVAL: %v", err)
+		}
+		duration = time.Duration(sec) * time.Second
 	}
 	Conf.PullCooldown = duration
 }
